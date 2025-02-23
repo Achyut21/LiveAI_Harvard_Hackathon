@@ -15,6 +15,7 @@
     "@fewcha/web3-react": "^0.1.38",
     "aptos": "^1.21.0",
     "ethers": "^6.13.5",
+    "@google/generative-ai": "^0.22.0",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
     "qrcode.react": "^4.2.0",
@@ -22,7 +23,8 @@
     "react-dom": "^18.2.0",
     "react-qr-code": "^2.0.15",
     "react-qr-reader": "^3.0.0-beta-1",
-    "react-router-dom": "^7.2.0"
+    "react-router-dom": "^7.2.0",
+    "tesseract.js": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

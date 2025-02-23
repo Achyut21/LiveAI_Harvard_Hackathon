@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer border -->
+  <rect x="0.5" y="0.5" width="63" height="63" fill="#eee" stroke="#fafafa" stroke-width="1" />
+  <!-- Inner shading for a “flat” revealed tile -->
+  <rect x="3" y="3" width="58" height="58" fill="#ddd" stroke="#ccc" stroke-width="1" />
+</svg>

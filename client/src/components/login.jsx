@@ -5,10 +5,28 @@ export default function Login() {
     try {
       await window.pontem.connect();
       localStorage.setItem('isConnected', true);
+      add_user();
       window.location.reload();
     } catch (error) {
       console.error('Error connecting or fetching balance:', error);
     }
+  };
+
+  const add_user = async () => {
+    const user = await window.pontem.account();
+    console.log(user);
+    const response = await fetch('http://localhost:3000/user/add_user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address: user,
+        magicAPT: "100",
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (

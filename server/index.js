@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import userRoutes from './routes/user.routes.js';
 dotenv.config();
 
 mongoose.connect(process.env.MONGO).then(()=>{
@@ -19,3 +20,5 @@ app.listen(3000, () => {
 
 app.use(express.json());
 app.use(cors());
+
+app.use('/user', userRoutes);

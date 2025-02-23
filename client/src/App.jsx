@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/home';
 import Login from './components/login';
 import Game from './components/game';
+import Trade from './components/trade';
+import Chat from './components/chat';
+import MinesweeperGame from './components/mineSweeperGame';
+import RockPaperScissors from './components/rockPaperScissors';
 
 export default function App() {
 
@@ -29,6 +33,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={isConnected === true ? <Home /> : <Login />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/trade" element={<Trade />} />
+        <Route path="/minesweeper" element={<MinesweeperGame />} />
+        <Route path="/rps" element={<RockPaperScissors />} />
       </Routes>
     </BrowserRouter>
   )
