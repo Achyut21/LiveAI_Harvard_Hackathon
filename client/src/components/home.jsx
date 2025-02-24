@@ -223,7 +223,7 @@ export default function Home() {
 
   const disConnectWallet = async () => {
     try {
-      await window.pontem.connect();
+      await window.pontem.disconnect();
       localStorage.clear();
       window.location.reload();
     } catch (error) {
@@ -375,7 +375,7 @@ export default function Home() {
                   🛒 Amazon
                 </option>
                 <option value="walmart" className="flex items-center">
-                  🏪 Walmart
+                  🏪 Costco
                 </option>
                 <option value="target" className="flex items-center">
                   🎯 Target

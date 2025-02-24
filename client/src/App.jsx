@@ -34,6 +34,7 @@ export default function App() {
         <Route path="/" element={isConnected === true ? <Home /> : <Login />} />
         <Route path="/game" element={<Game />} />
         <Route path="/trade" element={<Trade />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/minesweeper" element={<MinesweeperGame />} />
         <Route path="/rps" element={<RockPaperScissors />} />
       </Routes>

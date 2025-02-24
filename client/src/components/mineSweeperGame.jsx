@@ -31,6 +31,10 @@ export default function MinesweeperGame() {
       return; // do nothing if invalid
     }
 
+    if(!transact(stakeAmount)){
+      return;
+    }
+
     // Create a new board. Everything is "mine" by default.
     const newBoard = Array(25).fill('mine');
     const brCount = parseInt(targetBRCount);
@@ -57,13 +61,85 @@ export default function MinesweeperGame() {
     }));
   };
 
+  const resetGame = async () => {
+    try {
+      setGameState((prev) => ({
+        ...prev,
+        board: Array(25).fill('mine'),
+        revealed: Array(25).fill(false),
+        isGameOver: false,
+        isWinner: false,
+        revealedCount: 0,
+        isGameStarted: false,
+      }));
+      await getUser();
+      // window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getUser = async () => {
+    try {
+      const account = await window.pontem.account();
+      const response = await fetch("http://localhost:3000/user/get_user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address: account }),
+      });
+      const data = await response.json();
+      await updateUser(data.magicAPT);
+    } catch (error) {
+      console.error("Error getting user:", error);
+    }
+  };
+
+  const updateUser = async (currentMagicAPT) => {
+    try {
+      const currentMagicAPTNum = Number(currentMagicAPT) || 0;
+      const additionalMagicAPT = reward * 40;
+      const newMagicAPT = currentMagicAPTNum + additionalMagicAPT;
+      const account = await window.pontem.account();
+      const response = await fetch("http://localhost:3000/user/update_user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address: account, magicAPT: newMagicAPT.toString() }),
+      });
+      const data = await response.json();
+      console.log("Update user response:", data);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  const transact = async (stakeAmount) => {
+    try {
+      const aptAmountInSmallestUnit = Math.floor(stakeAmount * 100000000);
+
+      const tx = {
+        function: '0x1::coin::transfer',
+        type_arguments: ['0x1::aptos_coin::AptosCoin'],
+        arguments: [
+          '0x7f27217edd1851d0d8d1c785d04c1e3f21c5bc945a000c3e2f638fdbde18f6e6', // recipient address
+          aptAmountInSmallestUnit.toString()
+        ]
+      };
+      const result = await window.pontem.signAndSubmit(tx);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  };
+
   // ---------------------------------------------------------------------------
   // 2) Auto-calculate reward whenever stake / targetBRCount changes
   // ---------------------------------------------------------------------------
   useEffect(() => {
     const { stakeAmount, targetBRCount } = gameState;
     if (stakeAmount && targetBRCount) {
-      const multiplier = 1 + parseInt(targetBRCount) * 0.5;
+      // With fewer BR tiles, (25 - targetBRCount) is higher, resulting in a larger multiplier.
+      const multiplier = 1 + (25 - parseInt(targetBRCount)) * 0.5;
       setReward(parseFloat(stakeAmount) * multiplier);
     } else {
       setReward(0);
@@ -90,13 +166,13 @@ export default function MinesweeperGame() {
       gameOver = true;
       newRevealed.fill(true);
     } else {
+      console.log(`Correct tile selected! You stand to earn ${reward.toFixed(2)} APT if you win.`);
       // If user hits a BR tile, check if all BR tiles are revealed
       const revealedBRCount = board.reduce((count, val, i) => {
         return count + (val === 'br' && newRevealed[i] ? 1 : 0);
       }, 0);
-
       if (revealedBRCount === parseInt(targetBRCount)) {
-        // user revealed all br tiles => they win
+        // user revealed all BR tiles => they win
         isWinner = true;
         gameOver = true;
         newRevealed.fill(true);
@@ -163,7 +239,7 @@ export default function MinesweeperGame() {
               className="w-full bg-gray-800 rounded-lg p-3 text-white"
               placeholder="Enter number of BR tiles"
               min="1"
-              max="25"
+              max="5"
               disabled={gameState.isGameStarted}
             />
           </div>
@@ -236,7 +312,7 @@ export default function MinesweeperGame() {
 
           {gameState.isGameStarted && !gameState.isGameOver && (
             <button
-              onClick={() => setGameState((prev) => ({ ...prev, isGameStarted: false }))}
+              onClick={resetGame}
               className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg transition-all duration-300"
             >
               Reset Game
