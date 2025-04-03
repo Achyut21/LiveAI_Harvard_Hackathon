@@ -2,7 +2,7 @@
 
 ## Inspiration
 
-As MSCS students at Boston, we quickly realized how juggling classes and grocery runs leaves little time and money to spare. After bouncing between Walmart for groceries, Starbucks for coffee, and countless other stores, we saw a pattern where each merchant offered separate loyalty programs that never really added up to anything substantial. Rather than watch these **scattered rewards go to waste**, we envisioned a single platform where every purchase matters and every bill can generate tangible value. That’s what inspired **BillRewards: a blockchain-based, universal loyalty solution that turns ordinary receipts into an extraordinary rewards experience**.
+As MSCS students at Boston, we quickly realized how juggling classes and grocery runs leaves little time and money to spare. After bouncing between Walmart for groceries, Starbucks for coffee, and countless other stores, we saw a pattern where each merchant offered separate loyalty programs that never really added up to anything substantial. Rather than watch these **scattered rewards go to waste**, we envisioned a single platform where every purchase matters and every bill can generate tangible value. That inspired **BillRewards: a blockchain-based, universal loyalty solution that turns ordinary receipts into an extraordinary rewards experience**.
 
 ## What it does
 
